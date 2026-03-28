@@ -1,7 +1,9 @@
 # 🌊 Spatio-Temporal Neural Estimator for Sea Surface Temperature
+![Julia](https://img.shields.io/badge/Julia-1.12-blue)
+![Status](https://img.shields.io/badge/status-in%20progress-orange)
 
 **Author:** Wejdan Alharthi  
-**Framework:** `NeuralEstimators.jl`  
+**Framework:** NeuralEstimators.jl (Simulation-Based Inference)
 **Language:** Julia  
 
 ---
@@ -11,6 +13,12 @@
 This project develops a **simulation-based inference pipeline** for learning parameters of a **spatio-temporal Gaussian Random Field (GRF)** using a **Neural Bayes Estimator (NBE)**.
 
 The model is designed to infer underlying physical parameters from simulated **Sea Surface Temperature (SST)** fields, capturing both **spatial correlation** and **temporal dependence**.
+
+---
+
+## 🌍 Why This Matters
+
+Understanding spatio-temporal dynamics of sea surface temperature is essential for climate modeling and environmental monitoring. This work demonstrates how modern neural inference methods can replace expensive traditional statistical approaches.
 
 ---
 
@@ -36,7 +44,7 @@ To make the data suitable for neural architectures:
 * Handle variable-length time dimension
 * Align all samples to fixed length ($T = 9$)
 
-### 3. Training (Next Step)
+### 3. Model Training (Upcoming)
 * DeepSet + CNN architecture
 * GPU-based training
 * Neural parameter inference
@@ -107,6 +115,7 @@ This project is built using the NeuralEstimators.jl package developed by Matthew
 
 If you use this repository in your research or other activities, please consider citing:
 
+```bibtex
 @misc{NeuralEstimators.jl,
   title = {{NeuralEstimators.jl}: A Julia package for efficient simulation-based inference using neural networks},
   author = {Sainsbury-Dale, Matthew},
@@ -114,6 +123,7 @@ If you use this repository in your research or other activities, please consider
   note = {Version 0.2.0},
   howpublished = {\url{https://github.com/msainsburydale/NeuralEstimators.jl}}
 }
+```
 
 ---
 
@@ -126,3 +136,10 @@ Build a scalable and efficient framework for **spatio-temporal parameter inferen
 ### 📎 Notes
 
 This project is inspired by the **NeuralEstimators workshop** and extends its principles to a spatio-temporal setting with specialized handling for temporal dependence.
+
+---
+
+## ⭐ Project Status
+
+This project is actively under development, with upcoming work focusing on model training, evaluation, and real-world SST application.
+
