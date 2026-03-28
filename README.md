@@ -73,3 +73,40 @@ NBE/
 ├── Manifest.toml
 └── README.md
 ```
+
+---
+
+### 💾 Data Management
+
+* **Processed Data:** Included in this repository for direct training.
+* **Raw Data:** Excluded from the repository due to its large size.
+* **Regeneration:** All data can be regenerated using the provided simulation pipeline in the notebooks.
+
+---
+
+### 🚀 Next Steps
+
+1.  **Train Neural Bayes Estimator:** Utilizing GPU acceleration for efficient training.
+2.  **Model Evaluation:** Testing accuracy on the withheld test set to ensure robustness.
+3.  **Real-world Application:** Applying the trained model to real SST data (e.g., NOAA ERSST).
+
+---
+
+### 🧪 Technologies
+
+* **Julia:** High-performance scientific computing.
+* **NeuralEstimators.jl:** Framework for neural-based inference.
+* **Flux.jl:** Deep learning library for Julia.
+* **CUDA:** GPU acceleration for training and simulation.
+
+---
+
+### 🎯 Goal
+
+Build a scalable and efficient framework for **spatio-temporal parameter inference** using neural networks, effectively bypassing expensive and complex likelihood computations.
+
+---
+
+### 📎 Notes
+
+This project is inspired by the **NeuralEstimators workshop** and extends its principles to a spatio-temporal setting with specialized handling for temporal dependence.
