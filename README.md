@@ -1,34 +1,37 @@
 # 🌊 Spatio-Temporal Neural Estimator for Sea Surface Temperature
+
 ![Julia](https://img.shields.io/badge/Julia-1.12-blue)
-![Status](https://img.shields.io/badge/status-in%20progress-orange)
+![Status](https://img.shields.io/badge/status-completed-brightgreen)
 
-**Author:** Wejdan Alharthi  
-**Framework:** NeuralEstimators.jl (Simulation-Based Inference)
+**Author:** Wejdan Majed Alharthi  
+**Framework:** NeuralEstimators.jl (Simulation-Based Inference)  
+**Backend:** Flux.jl + CUDA.jl  
 **Language:** Julia  
-
 ---
 
 ## 📌 Overview
 
 This project develops a **simulation-based inference pipeline** for learning parameters of a **spatio-temporal Gaussian Random Field (GRF)** using a **Neural Bayes Estimator (NBE)**.
 
-The model is designed to infer underlying physical parameters from simulated **Sea Surface Temperature (SST)** fields, capturing both **spatial correlation** and **temporal dependence**.
+The model infers underlying physical parameters from simulated **Sea Surface Temperature (SST)** fields, capturing both **spatial correlation** and **temporal dependence**.
 
 ---
 
 ## 🌍 Why This Matters
 
-Understanding spatio-temporal dynamics of sea surface temperature is essential for climate modeling and environmental monitoring. This work demonstrates how modern neural inference methods can replace expensive traditional statistical approaches.
+This project demonstrates how **simulation-based neural inference** can provide scalable and efficient alternatives to traditional likelihood-based methods, especially in complex spatio-temporal settings.
 
 ---
 
 ## 🧠 Key Idea
 
-We simulate data from:
-* **Spatial correlation** → Matérn covariance ($\nu = 1.5$)  
-* **Temporal dependence** → AR(1) process  
+We simulate data using:
 
-To make the data suitable for neural architectures:
+- **Spatial correlation** → Matérn covariance ($\nu = 1.5$)  
+- **Temporal dependence** → AR(1) process  
+
+To make the data compatible with neural architectures:
+
 > We apply **first-order temporal differencing**, making the data **exchangeable**, enabling the use of a **DeepSet + CNN architecture**.
 
 ---
@@ -36,18 +39,48 @@ To make the data suitable for neural architectures:
 ## ⚙️ Pipeline
 
 ### 1. Data Generation
-* Sample parameters $\theta = (\theta_1, \theta_2)$
-* Simulate spatio-temporal fields
-* Apply first differences
+- Sample parameters $\theta = (\theta_1, \theta_2)$  
+- Simulate spatio-temporal fields  
+- Apply first-order differencing  
 
 ### 2. Preprocessing
-* Handle variable-length time dimension
-* Align all samples to fixed length ($T = 9$)
+- Handle variable temporal length  
+- Standardize all samples to fixed length ($T = 9$)  
 
-### 3. Model Training (Upcoming)
-* DeepSet + CNN architecture
-* GPU-based training
-* Neural parameter inference
+### 3. Model Training
+- DeepSet + CNN architecture  
+- GPU-based training (CUDA)  
+- Neural parameter estimation  
+
+### 4. Evaluation
+- Test-set prediction  
+- RMSE, MAE, and bias computation  
+- Visualization (true vs predicted)  
+- Built-in assessment via `NeuralEstimators.jl`
+
+---
+
+## 📊 Results
+
+The model demonstrates strong generalization performance:
+
+- **Test RMSE ≈ 0.05**
+- **Test MAE ≈ 0.03**
+
+### Visualization
+
+The figure below compares true and predicted parameters on the test set:
+
+
+### Parameter-wise performance:
+
+- **θ₁ (spatial range):**
+  - RMSE ≈ 0.018 → very high accuracy  
+
+- **θ₂ (temporal dependence):**
+  - RMSE ≈ 0.069 → more challenging due to temporal dynamics  
+
+> The results show that spatial structure is easier to recover than temporal dependence in the current architecture.
 
 ---
 
@@ -55,13 +88,12 @@ To make the data suitable for neural architectures:
 
 | Split | Samples |
 | :--- | :--- |
-| **Train** | 10,000 |
-| **Validation** | 1,000 |
-| **Test** | 500 |
+| Train | 10,000 |
+| Validation | 1,000 |
+| Test | 500 |
 
-**Sample Dimensions:**
-* **Before Preprocessing:** $(21, 21, 1, T)$
-* **After Preprocessing:** $(21, 21, 1, 9)$
+**Sample Shape:**
+- $(21, 21, 1, 9)$ after preprocessing  
 
 ---
 
@@ -71,75 +103,55 @@ To make the data suitable for neural architectures:
 NBE/
 │
 ├── data/
-│   ├── raw/            # (ignored in repo)
-│   └── processed/      # ready for training
+│   ├── raw/            # (excluded)
+│   └── processed/      # training-ready data
 │
 ├── notebooks/
-│   └── data_preprocessing.ipynb
+│   ├── data_preprocessing.ipynb
+│   └── data_training.ipynb
 │
 ├── Project.toml
 ├── Manifest.toml
 └── README.md
 ```
 
----
-
 ### 💾 Data Management
 
-* **Processed Data:** Included in this repository for direct training.
-* **Raw Data:** Excluded from the repository due to its large size.
-* **Regeneration:** All data can be regenerated using the provided simulation pipeline in the notebooks.
-
----
-
-### 🚀 Next Steps
-
-1.  **Train Neural Bayes Estimator:** Utilizing GPU acceleration for efficient training.
-2.  **Model Evaluation:** Testing accuracy on the withheld test set to ensure robustness.
-3.  **Real-world Application:** Applying the trained model to real SST data (e.g., NOAA ERSST).
+* **Processed Data:** Included for direct training to ensure immediate reproducibility.
+* **Raw Data:** Excluded from the repository due to its large storage footprint.
+* **Full Pipeline:** The provided scripts allow for the complete regeneration of datasets from scratch.
 
 ---
 
 ### 🧪 Technologies
 
-* **Julia:** High-performance scientific computing.
-* **NeuralEstimators.jl:** Framework for neural-based inference.
-* **Flux.jl:** Deep learning library for Julia.
-* **CUDA:** GPU acceleration for training and simulation.
+* **Julia:** The core language used for high-performance scientific computing.
+* **NeuralEstimators.jl:** For developing and evaluating neural estimators.
+* **Flux.jl:** The primary library for neural network architectures.
+* **CUDA.jl + cuDNN:** Leveraged for GPU acceleration and optimized deep learning primitives.
+* **CairoMakie & AlgebraOfGraphics:** Used for high-quality, declarative data visualization and plotting.
 
 ---
 
-## 📚 Supporting and Citation
+### 📚 Supporting and Citation
 
-This project is built using the NeuralEstimators.jl package developed by Matthew Sainsbury-Dale.
-
-If you use this repository in your research or other activities, please consider citing:
-
-```bibtex
+This project builds on:
+```
 @misc{NeuralEstimators.jl,
   title = {{NeuralEstimators.jl}: A Julia package for efficient simulation-based inference using neural networks},
   author = {Sainsbury-Dale, Matthew},
-  year = {2026},
-  note = {Version 0.2.0},
-  howpublished = {\url{https://github.com/msainsburydale/NeuralEstimators.jl}}
+  year = {2026}
 }
 ```
 
----
-
-### 🎯 Goal
-
-Build a scalable and efficient framework for **spatio-temporal parameter inference** using neural networks, effectively bypassing expensive and complex likelihood computations.
-
----
-
-### 📎 Notes
-
-This project is inspired by the **NeuralEstimators workshop** and extends its principles to a spatio-temporal setting with specialized handling for temporal dependence.
+## 🎯 Goal
+Build a scalable framework for **spatio-temporal parameter inference** using neural networks, avoiding explicit likelihood computation.
 
 ---
 
 ## ⭐ Project Status
+**Completed** (Training + Evaluation + Visualization)
 
-This project is actively under development, with upcoming work focusing on model training, evaluation, and real-world SST application.
-
+### Future work may include:
+* **Improving temporal parameter estimation:** Refining the model's ability to capture time-series dynamics.
+* **Applying the model to real SST datasets:** Transitioning from simulations to real-world Sea Surface Temperature data.
