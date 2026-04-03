@@ -3,10 +3,10 @@
 ![Julia](https://img.shields.io/badge/Julia-1.12-blue)
 ![Status](https://img.shields.io/badge/status-completed-brightgreen)
 
-**Author:** Wejdan Majed Alharthi  
-**Framework:** NeuralEstimators.jl (Simulation-Based Inference)  
-**Backend:** Flux.jl + CUDA.jl  
-**Language:** Julia  
+Author: Wejdan Majed Alharthi  
+Framework: NeuralEstimators.jl (Simulation-Based Inference)  
+Backend: Flux.jl + CUDA.jl  
+Language: Julia  
 ---
 
 ## 📌 Overview
@@ -110,6 +110,15 @@ NBE/
 ├── notebooks/
 │   ├── data_preprocessing.ipynb
 │   └── data_training.ipynb
+│
+├── assets/
+│   └── assessment_results.png   # evaluation visualization
+│
+├── models/
+│   └── nbe_model.jld2          # trained Neural Bayes Estimator
+│
+├── docs/
+│   └── challenges.md           # detailed challenges and solutions
 │
 ├── Project.toml
 ├── Manifest.toml
