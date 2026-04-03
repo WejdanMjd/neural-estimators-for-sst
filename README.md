@@ -159,6 +159,14 @@ Build a scalable framework for **spatio-temporal parameter inference** using neu
 
 ---
 
+## ⚠️ Challenges and Solutions
+
+A detailed discussion of engineering challenges and their solutions is available here:
+
+👉 [View Challenges and Solutions](docs/challenges.md)
+
+---
+
 ## ⭐ Project Status
 **Completed** (Training + Evaluation + Visualization)
 
