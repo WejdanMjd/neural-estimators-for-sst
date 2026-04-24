@@ -1,6 +1,8 @@
-# Simulation-Based Inference for Spatio-Temporal Sea Surface Temperature Models using Neural Bayes Estimators
-Likelihood-free inference for spatio-temporal Gaussian random fields using amortized neural Bayes estimators.
+# Simulation-Based Inference for Spatio-Temporal Sea Surface Temperature using Neural Bayes Estimators
+
 ![Julia](https://img.shields.io/badge/Julia-1.12-blue)
+
+Likelihood-free inference for spatio-temporal Gaussian random fields using amortized neural Bayes estimators.
 
 ## Overview
 
