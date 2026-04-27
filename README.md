@@ -2,13 +2,13 @@
 
 ![Julia](https://img.shields.io/badge/Julia-1.12-blue)
 
-Likelihood-free inference for spatio-temporal Gaussian random fields using amortized neural Bayes estimators.
+Likelihood-free parameter inference for simulated spatio-temporal Gaussian random fields using amortized neural estimators.
 
 ## Overview
 
 This repository presents a proof-of-concept application of Neural Bayes Estimators (NBE) for simulation-based inference in a spatio-temporal Gaussian random field model motivated by sea surface temperature (SST) dynamics.
 
-The goal is to infer two model parameters from simulated SST fields: a spatial range parameter controlling spatial dependence, and a temporal dependence parameter controlling AR(1) dynamics. The full pipeline includes data simulation, preprocessing, GPU-based neural estimator training, and parameter recovery assessment using NeuralEstimators.jl.
+The goal is to infer two model parameters from simulated SST-like fields: a spatial range parameter controlling spatial dependence, and a temporal dependence parameter controlling AR(1) dynamics. The full pipeline includes data simulation, preprocessing, GPU-based neural estimator training, and parameter recovery assessment using NeuralEstimators.jl.
 
 ---
 
@@ -25,7 +25,7 @@ where:
 
 Spatial covariance is modeled using a Matérn kernel (ν = 1.5), while temporal evolution follows an autoregressive process.
 
-To facilitate exchangeable learning with DeepSet-based neural architectures, first-order temporal differencing is applied prior to inference.
+To reduce temporal dependence and support permutation-invariant aggregation with DeepSet-based neural architectures, first-order temporal differencing is applied prior to inference.
 
 ---
 
@@ -35,10 +35,10 @@ To facilitate exchangeable learning with DeepSet-based neural architectures, fir
 Parameters θ = (ρ, ϕ) are sampled from prior distributions, and spatio-temporal Gaussian random fields are simulated under a Matérn spatial covariance model and AR(1) temporal dependence.
 
 ### 2. Data Preprocessing
-First-order temporal differencing is applied to promote exchangeability, and simulated samples are standardized to a fixed temporal length for neural network training.
+First-order temporal differencing is applied to reduce temporal dependence prior to neural estimation, and simulated samples are standardized to a fixed temporal length for neural network training.
 
 ### 3. Neural Estimator Training
-A DeepSet-CNN architecture is trained using Neural Bayes Estimation to amortize parameter inference from simulated fields.
+A DeepSet-CNN architecture is trained using amortized neural Bayes estimation for parameter inference from simulated fields.
 
 ### 4. Parameter Recovery Assessment
 Estimator performance is evaluated on held-out test simulations using parameter recovery diagnostics, including RMSE, MAE, and prediction bias.
@@ -47,7 +47,7 @@ Estimator performance is evaluated on held-out test simulations using parameter 
 
 ## Results
 
-The estimator demonstrates strong parameter recovery on held-out simulations.
+The estimator shows strong parameter recovery within the simulated data-generating setting.
 
 ### Parameter Recovery
 
@@ -56,7 +56,7 @@ The estimator demonstrates strong parameter recovery on held-out simulations.
 | ρ (spatial range) | 0.018 | strong recovery |
 | ϕ (temporal dependence) | 0.069 | more difficult to recover |
 
-Spatial dependence is recovered more accurately than temporal dependence, suggesting that dynamic structure remains the more difficult inferential component under the current architecture.
+The spatial range parameter is recovered more accurately than the temporal dependence parameter, suggesting that dynamic structure remains the more difficult inferential component under the current architecture.
 
 ### Evaluation Metrics
 - Test RMSE ≈ 0.05  
@@ -76,10 +76,11 @@ Current limitations include:
 - evaluation is based on simulated data only  
 - uncertainty calibration is not yet assessed  
 - no benchmark against classical inference methods is currently included
+- temporal truncation to a fixed baseline length may discard longer-range temporal information
 
 Benchmarking against likelihood-based or MCMC alternatives remains future work.
 
-  ---
+---
 
 ## Reproducibility
 
@@ -104,12 +105,14 @@ Processed data are included for immediate reproducibility, while raw data can be
 
 ## Repository Structure
 
+```
 NBE/
 ├── data/
 ├── notebooks/
 ├── models/
 ├── assets/
 └── docs/
+```
 
 See individual folders for preprocessing, training, and assessment components.
 
@@ -130,6 +133,7 @@ Potential extensions include:
 - improved architectures for temporal dependence recovery  
 - applications to real sea surface temperature observations  
 - extensions to more complex spatio-temporal extreme-value models
+- comparison with likelihood-based Bayesian inference (e.g. INLA/SPDE or MCMC)
 
 ---
 
@@ -150,10 +154,10 @@ Primary methodological background:
 If you use this repository, please consider citing:
 
 ```bibtex
-@misc{NeuralEstimators.jl,
+@misc{NeuralEstimators,
   title = {{NeuralEstimators.jl}: A Julia package for efficient simulation-based inference using neural networks},
   author = {Sainsbury-Dale, Matthew},
-  year = {2026}
+  url = {https://github.com/msainsburydale/NeuralEstimators.jl}
 }
 ```
 
@@ -161,10 +165,12 @@ and the methodological reference:
 
 ```bibtex
 @article{SainsburyDale2024,
-  author = {Sainsbury-Dale, Matthew and Zammit-Mangion, Andrew and Huser, Raphael},
-  title = {Likelihood-Free Parameter Estimation with Neural Bayes Estimators},
+  title = {Likelihood-Free Parameter Estimation with Neural {B}ayes Estimators},
+  author = {Matthew Sainsbury-Dale and Andrew Zammit-Mangion and Raphael Huser},
   journal = {The American Statistician},
   year = {2024},
+  volume = {78},
+  pages = {1--14},
   doi = {10.1080/00031305.2023.2249522}
 }
 ```
